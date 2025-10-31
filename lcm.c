@@ -1,4 +1,3 @@
-//lcm
 #include <stdio.h>
 int main()
 {
@@ -15,5 +14,4 @@ int main()
     return 0;
     }
   }
-  return 0;
 }

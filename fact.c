@@ -7,7 +7,7 @@ int main ()
   scanf("%d",&num);
   if(num<0)
   {
-    printf("Factorial of negstive numbers is not defined. ");
+    printf("Factorial of negative numbers is not defined. ");
     return 0;
   }
   for(int i=1;i<=num;i++)
