@@ -1,6 +1,13 @@
 #include <stdio.h>
 int main()
 {
+  /*
+  A 
+  AB 
+  ABC
+  ABCD
+  ABCDE
+  */
   char ch='A';
   for(int i=1;i<=5;i++)
   { 
