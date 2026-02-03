@@ -2,7 +2,7 @@
 int main()
 {
   char ch;
-printf("Enter a character: ");
+printf("\aEnter \a\ah \a \a charac\a\ater:\a ");
   scanf("%c",&ch);
   if(ch>='A' && ch<='Z')
 printf("Uppercase albhabet letter %c",ch);

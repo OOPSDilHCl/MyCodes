@@ -3,7 +3,7 @@ int main ()
 {
   int num;
   long long fact=1;
-  printf("Enter any number: \n");
+  printf("Enter any number: \n%lu",sizeof(int));
   scanf("%d",&num);
   if(num<0)
   {

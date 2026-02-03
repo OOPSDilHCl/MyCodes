@@ -1,0 +1,1 @@
+#define CIRCUM(r) (2*PI*(r))

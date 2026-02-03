@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 int main()
 {
   /*
@@ -8,6 +9,8 @@ int main()
   ABCD
   ABCDE
   */
+  char test[10];
+  do{
   char ch='A';
   for(int i=1;i<=5;i++)
   { 
@@ -19,5 +22,9 @@ int main()
     }
     printf("\n");
   }
+  printf("Do you want to continue:- Then type Yes and No to discontinue.");
+  scanf("%s",test);
+  }
+  while(strcmp(test,"yes")==0);
   return 0;
 }
