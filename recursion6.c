@@ -16,7 +16,10 @@ int main()
     return 0;
   }
   if(n<0)
+  {
   n=-n;
   printf("Total digits=%d",count(n));
+  }
+  else printf("Total digits=%d",count(n));
   return 0;
 }
