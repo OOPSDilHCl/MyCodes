@@ -10,17 +10,15 @@ public class buySellStock
     System.out.println("Enter the stock price each day: ");
     for(int i=0;i<n;i++)
     arr[i]=sc.nextInt();
-    int maxm=0;
+    int maxProfit=0;
+    int minPrice=Integer.MAX_VALUE;
     for(int i=0;i<n;i++)
     {
-        for(int j=i+1;j<n;j++)
-        {
-          if(arr[j]-arr[i]>maxm)
-          {
-          maxm=arr[j]-arr[i];
-        }
-       }
+      if(arr[i]<minPrice)
+      minPrice=arr[i];
+      else if(arr[i]-minPrice>maxProfit)
+      maxProfit=arr[i]-minPrice;
     }
-    System.out.println(maxm);
+    System.out.println(maxProfit);
   }
 }
