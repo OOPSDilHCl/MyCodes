@@ -10,16 +10,20 @@ public class containerWithMostWater
     System.out.println("Enter the height of vertical lines: ");
     for(int i=0;i<n;i++)
     arr[i]=sc.nextInt();
-    int maxVolume=0;
-    for(int i=0;i<n;i++)
+    int left=0;
+    int right=n-1;
+    int maxArea=0;
+    while(left<right)
     {
-      for(int j=i+1;j<n;j++)
-      {
-      int c=arr[i]<arr[j]?arr[i]:arr[j];
-       if(maxVolume<(c*(j-i))) 
-        maxVolume=c*(j-i);
-      }
+      int height=Math.min(arr[left],arr[right]);
+      int width=right-left;
+      int area=height*width;
+      maxArea=Math.max(maxArea,area);
+      if(arr[left]<arr[right])
+      left++;
+      else 
+      right--;
     }
-    System.out.println(maxVolume);
+    System.out.println(maxArea);
   }
 }
