@@ -4,10 +4,10 @@
 int main() {
     int i;
 
-    for (i = 0; i <= 200; i++) {
+    for (i = 0; i <= 1000; i++) {
         printf("\rLoading... %d%%", i);
         fflush(stdout);
-        usleep(50000);   // 50 milliseconds
+        usleep(10000);   // 10 milliseconds
     }
 
     printf("\nCompleted!\n");
