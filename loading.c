@@ -7,7 +7,7 @@ int main() {
     for (i = 0; i <= 1000; i++) {
         printf("\rLoading... %d%%", i);
         fflush(stdout);
-        usleep(10000);   // 10 milliseconds
+        usleep(50000);   // 50 milliseconds
     }
 
     printf("\nCompleted!\n");
