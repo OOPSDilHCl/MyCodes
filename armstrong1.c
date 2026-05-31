@@ -1,15 +1,16 @@
 #include <stdio.h>
+#include <math.h>
 int main()
 {
   int num,c=0,pro=1,arm1=0;
   printf("Enter a number: ");
   scanf("%d",&num);
   int n=num;
-  while(n>0)
+  do
   {
     c++;
-    n=n/10;
-  }
+    n/=10;
+  }while(n>0);
   n=num;
   while(n>0)
   {
