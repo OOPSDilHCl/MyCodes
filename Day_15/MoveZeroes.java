@@ -1,5 +1,5 @@
 import java.util.*;
-public class moveZero
+public class MoveZeroes
 {
   public static void main(String[] args)
   {

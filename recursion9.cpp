@@ -3,10 +3,11 @@ int power(int x,int n)//stack height=logn
 {
   if(n==0) return 1;
   if(x==0) return 0;
+  int power=power(x,n/2);
   if(n%2==0) 
-  return power(x,n/2)*power(x,n/2); 
+   return power*power; 
   else 
-  return power(x,n/2)*power(x,n/2)*x;
+   return power*power*x;
 }
 int main()
 {

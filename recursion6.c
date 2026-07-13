@@ -20,6 +20,6 @@ int main()
   n=-n;
   printf("Total digits=%d",count(n));
   }
-  else printf("Total digits=%d",count(n));
+else printf("Total digits=%d",count(n));
   return 0;
 }
