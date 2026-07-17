@@ -1,5 +1,5 @@
 import java.util.*;
-public class Boilerplate
+public class CountFreq
 {
   public static void main(String[] args)
   {
