@@ -1,28 +1,21 @@
-import java.util.*;
-public class twoSum
-{
-  public static void main(String[] args)
-  {
-    Scanner sc=new Scanner(System.in);
-    System.out.println("Enter the length of array.");
-    int n=sc.nextInt();
-    int arr[]=new int[n];
-    System.out.println("Enter the elements of array: ");
-    for(int i=0;i<n;i++)
-    arr[i]=sc.nextInt();
-    System.out.println("Enter the target value.");
-    int target=sc.nextInt();
-    for(int i=0;i<n;i++)
-    {
-        for(int j=i+1;j<n;j++)
-        {
-          if((arr[i]+arr[j])==target)
-          {
-          System.out.println("["+i+","+j+"]");
-          return;
-        }
-       }
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+public class TwoSum{
+public static void main(String[] args){
+  int arr[]={1,6,5,5,9,3,2},target=6;
+  Set<Integer> set=new HashSet<>();
+  int len=arr.length,found=0;
+  for(int i=0;i<len;i++){
+    int complement=target-arr[i];
+    if(set.contains(complement)){
+      System.out.println(arr[i]+"+"+complement+"="+target);
+      found=1;
+      break;
     }
-    System.out.println("No solution found.");
+    set.add(arr[i]);
   }
+    if(found==0)
+    System.out.println("No pairs exist");
+ }
 }
