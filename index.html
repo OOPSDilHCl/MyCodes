@@ -1,46 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Dark Website</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Little Lemon — Mediterranean Table</title>
+<meta name="description" content="Little Lemon is a family-owned Mediterranean restaurant. Choose a location and reserve your table.">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>No way I made this webpage LoL;</header>
-    <nav class="navbar">
-        <h1 class="logo">ZeroSite</h1>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#abt">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-        </ul>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo">
+      <span class="logo-main">Little Lemon</span>
+      <span class="logo-sub">Mediterranean Table</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Toggle navigation">
+      <span></span>
+    </button>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="reservations.html">Reservations</a>
+      <a href="menu.html">Menu</a>
+      <a href="reservations.html" class="btn btn-primary nav-cta">Book a table</a>
     </nav>
-    
-    <section id="home" class="section hero">
-        <h2>Welcome, Architect</h2>
-        <p>A clean HTML • CSS • JS website</p>
-        <button id="themeBtn">Toggle Theme</button>
-    </section>
-    
-    <section id="abt" class="section">
-        <h2>About</h2>
-        <p>
-            This website is fully offline, lightweight,
-            and built to be opened directly using Termux.
-        </p>
-    </section>
+  </div>
+</header>
 
-    <section id="projects" class="section cards">
-        <div class="card">HTML Structure</div>
-        <div class="card">CSS Animations</div>
-        <div class="card">JavaScript Logic</div>
-    </section>
+<main>
 
-    <footer>
-        <p>&copy; 2026 ZeroSite</p>
-    </footer>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Est. 1971 · Family owned</span>
+        <h1>Good food,<br><em>slower</em> mornings.</h1>
+        <p class="lede">Little Lemon began as a single grill by the harbor and grew into three neighbourhood tables, each one still run the way Mario and Adrian started it — fresh citrus, wood fire, and no rush.</p>
+        <div class="actions">
+          <a href="#choose-location" class="btn btn-primary">Choose your table</a>
+          <a href="menu.html" class="btn btn-outline">See the menu</a>
+        </div>
+        <div class="meta-row">
+          <div><strong>3</strong>neighbourhood locations</div>
+          <div><strong>54</strong>years in business</div>
+          <div><strong>11–10</strong>open daily</div>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg class="wedge" width="260" height="260" viewBox="0 0 200 200" role="img" aria-label="Illustration of a lemon slice">
+          <circle class="rind" cx="100" cy="100" r="96"></circle>
+          <circle class="core" cx="100" cy="100" r="78"></circle>
+          <g class="seg">
+            <path d="M100 22 L100 178" fill="none"/>
+            <path d="M100 22 L152 45 M100 22 L48 45" fill="none"/>
+            <path d="M178 100 L22 100" fill="none"/>
+            <path d="M178 100 L155 152 M178 100 L155 48" fill="none"/>
+            <path d="M100 178 L100 22" fill="none"/>
+            <path d="M22 100 L45 152 M22 100 L45 48" fill="none"/>
+            <path d="M143 43 L57 157" fill="none"/>
+            <path d="M57 43 L143 157" fill="none"/>
+          </g>
+          <circle class="seed" cx="88" cy="82" r="5"></circle>
+          <circle class="seed" cx="118" cy="108" r="5"></circle>
+          <circle class="seed" cx="100" cy="128" r="5"></circle>
+        </svg>
+        <span class="ring-label">picked daily, sliced fresh</span>
+      </div>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <div class="scallop"></div>
+
+  <!-- LOCATION PICKER -->
+  <section class="section section--alt" id="choose-location">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Step one</span>
+        <h2>Choose your Little Lemon</h2>
+        <p>Pick the table you'd like to visit — your reservation form will remember it.</p>
+      </div>
+
+      <form id="locationForm">
+        <div class="loc-grid">
+
+          <label class="loc-card">
+            <input type="radio" name="location" value="Grove Quarter" required>
+            <span class="loc-tag">Original 1971 site</span>
+            <h3>Grove Quarter</h3>
+            <p class="loc-addr">14 Harbor Lane, Old Grove Quarter</p>
+            <p class="loc-hours">Mon–Sun · 11:00 – 22:00<br>Patio seating &amp; wood-fired grill</p>
+          </label>
+
+          <label class="loc-card">
+            <input type="radio" name="location" value="Harborside" required>
+            <span class="loc-tag">Waterfront</span>
+            <h3>Harborside</h3>
+            <p class="loc-addr">2 Pier Row, Harborside Docks</p>
+            <p class="loc-hours">Mon–Sun · 12:00 – 23:00<br>Full bar &amp; sunset terrace</p>
+          </label>
+
+          <label class="loc-card">
+            <input type="radio" name="location" value="Old Mill Square" required>
+            <span class="loc-tag">Newest, 2019</span>
+            <h3>Old Mill Square</h3>
+            <p class="loc-addr">61 Mill Square, West Bank</p>
+            <p class="loc-hours">Tue–Sun · 11:30 – 21:30<br>Private dining room</p>
+          </label>
+
+        </div>
+
+        <div class="loc-continue">
+          <p class="picked" id="pickedLabel">No location selected yet.</p>
+          <button type="submit" class="btn btn-dark" id="continueBtn" disabled>Continue to reservations →</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="section section--green">
+    <div class="wrap story">
+      <div class="story-art" aria-hidden="true"></div>
+      <div>
+        <span class="eyebrow" style="color:var(--yellow)">Our story</span>
+        <h2>Two friends, one grill, and too much lemon.</h2>
+        <p>Mario ran the kitchen his grandmother taught him in Corfu; Adrian handled the front of house and the wine list. In 1971 they pooled their savings for a single charcoal grill and a crate of lemons from the market next door — the crate never really emptied. Every dish since has kept that same instinct: char something over wood, finish it with citrus, serve it to people like family.</p>
+        <div class="founders">
+          <div><strong>Mario</strong><span>Chef &amp; co-founder</span></div>
+          <div><strong>Adrian</strong><span>Host &amp; co-founder</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="scallop on-green"></div>
+
+  <!-- SPECIALS TEASER -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">On the table this week</span>
+        <h2>A taste of the menu</h2>
+        <p>A short preview — the full menu has starters, mains, desserts and drinks, and you can build your order as you scroll.</p>
+      </div>
+      <div class="card-grid">
+        <article class="dish-card">
+          <div class="dish-media" style="background:#F1E8D2;">🍋</div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Lemon &amp; Herb Branzino</h3><span class="dish-price">$24</span></div>
+            <p>Whole grilled sea bass, charred lemon, wild oregano.</p>
+            <div class="dish-tags"><span class="tag">Gluten-free</span></div>
+          </div>
+        </article>
+        <article class="dish-card">
+          <div class="dish-media" style="background:#E9EFE6;">🥗</div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Grove Quarter Salad</h3><span class="dish-price">$14</span></div>
+            <p>Shaved fennel, orange, olives, mint, aged feta.</p>
+            <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+          </div>
+        </article>
+        <article class="dish-card">
+          <div class="dish-media" style="background:#F7E6D8;">🍮</div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Yogurt &amp; Honey Cake</h3><span class="dish-price">$9</span></div>
+            <p>Semolina cake, citrus syrup, thick sheep's-milk yogurt.</p>
+            <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <span class="logo-main">Little Lemon</span>
+      <p>A family Mediterranean table, open in three neighbourhoods since 1971.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul><li><a href="index.html">Home</a></li><li><a href="reservations.html">Reservations</a></li><li><a href="menu.html">Menu</a></li></ul>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <ul><li>Grove Quarter</li><li>Harborside</li><li>Old Mill Square</li></ul>
+    </div>
+    <div>
+      <h4>Hours</h4>
+      <ul><li>Mon–Sun 11:00–22:00</li><li>Kitchen closes 21:30</li></ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 1971–2026 Little Lemon</span>
+    <span>Made with citrus &amp; patience</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Little Lemon</title>
+<meta name="description" content="Browse Little Lemon's menu across Starters, Mains and Desserts, filter by diet, and build your order.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo">
+      <span class="logo-main">Little Lemon</span>
+      <span class="logo-sub">Mediterranean Table</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Toggle navigation">
+      <span></span>
+    </button>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="reservations.html">Reservations</a>
+      <a href="menu.html" aria-current="page">Menu</a>
+      <a href="reservations.html" class="btn btn-primary nav-cta">Book a table</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="menu-hero">
+    <div class="wrap">
+      <span class="eyebrow">The full spread</span>
+      <h1>Starters, mains &amp; something sweet</h1>
+      <p>Scroll through all three courses, filter by diet, and tick the dishes you're excited about — we'll total them up as you go.</p>
+    </div>
+  </section>
+
+  <!-- STICKY SECONDARY NAV -->
+  <div class="menu-toolbar" id="menuToolbar">
+    <div class="wrap">
+      <nav class="menu-jump" aria-label="Jump to menu section">
+        <a href="#starters" class="is-active" data-section="starters">Starters<span class="jump-mark"></span></a>
+        <a href="#mains" data-section="mains">Mains<span class="jump-mark"></span></a>
+        <a href="#desserts" data-section="desserts">Desserts<span class="jump-mark"></span></a>
+      </nav>
+      <div class="diet-filters" id="dietFilters">
+        <label class="chip"><input type="radio" name="diet" value="all" checked> All</label>
+        <label class="chip"><input type="radio" name="diet" value="vegetarian"> Vegetarian</label>
+        <label class="chip"><input type="radio" name="diet" value="vegan"> Vegan</label>
+        <label class="chip"><input type="radio" name="diet" value="gluten-free"> Gluten-free</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- STARTERS -->
+  <section class="menu-section" id="starters">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">Course one</span><h2>Starters</h2></div>
+        <span class="section-count">6 dishes</span>
+      </div>
+      <div class="menu-grid">
+
+        <article class="menu-item" data-diet="vegetarian">
+          <div class="thumb">🫒</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Marinated Olives</h3><span class="item-price">$6</span></div>
+            <p class="item-desc">Castelvetrano &amp; kalamata, orange zest, chili oil.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegetarian</span><span class="tag">Gluten-free</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Marinated Olives" data-price="6"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="gluten-free">
+          <div class="thumb">🐙</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Charred Octopus</h3><span class="item-price">$16</span></div>
+            <p class="item-desc">Smoked paprika, crushed potato, salsa verde.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Gluten-free</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Charred Octopus" data-price="16"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="vegetarian">
+          <div class="thumb">🧀</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Whipped Feta</h3><span class="item-price">$9</span></div>
+            <p class="item-desc">Roasted red pepper, honey, warm pita.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Whipped Feta" data-price="9"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="vegan">
+          <div class="thumb">🥬</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Dolma</h3><span class="item-price">$8</span></div>
+            <p class="item-desc">Grape leaves, rice, herbs, lemon.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegan</span><span class="tag">Gluten-free</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Dolma" data-price="8"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="vegan">
+          <div class="thumb">🍆</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Smoked Eggplant Dip</h3><span class="item-price">$7</span></div>
+            <p class="item-desc">Tahini, pomegranate, toasted flatbread.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegan</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Smoked Eggplant Dip" data-price="7"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="gluten-free">
+          <div class="thumb">🦐</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Garlic Prawns</h3><span class="item-price">$14</span></div>
+            <p class="item-desc">Sizzling olive oil, chili, lemon, herb crumb.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Gluten-free</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Garlic Prawns" data-price="14"> Add</label>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MAINS -->
+  <section class="menu-section" id="mains">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">Course two</span><h2>Mains</h2></div>
+        <span class="section-count">6 dishes</span>
+      </div>
+      <div class="menu-grid">
+
+        <article class="menu-item" data-diet="gluten-free">
+          <div class="thumb">🐟</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Lemon &amp; Herb Branzino</h3><span class="item-price">$24</span></div>
+            <p class="item-desc">Whole grilled sea bass, charred lemon, wild oregano.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Gluten-free</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Lemon & Herb Branzino" data-price="24"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="vegetarian">
+          <div class="thumb">🍝</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Orzo Primavera</h3><span class="item-price">$18</span></div>
+            <p class="item-desc">Spring vegetables, lemon cream, torn basil.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Orzo Primavera" data-price="18"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="gluten-free">
+          <div class="thumb">🍗</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Wood-Fired Chicken</h3><span class="item-price">$21</span></div>
+            <p class="item-desc">Yogurt marinade, sumac onions, charred lemon.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Gluten-free</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Wood-Fired Chicken" data-price="21"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="vegan">
+          <div class="thumb">🍲</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Chickpea &amp; Squash Stew</h3><span class="item-price">$17</span></div>
+            <p class="item-desc">Slow-cooked, harissa, coriander, flatbread.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegan</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Chickpea & Squash Stew" data-price="17"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="gluten-free">
+          <div class="thumb">🥩</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Grilled Lamb Chops</h3><span class="item-price">$29</span></div>
+            <p class="item-desc">Rosemary, garlic, lemon, grilled peppers.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Gluten-free</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Grilled Lamb Chops" data-price="29"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="vegetarian">
+          <div class="thumb">🍕</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Grove Flatbread</h3><span class="item-price">$16</span></div>
+            <p class="item-desc">Whipped ricotta, roasted grapes, chili honey.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Grove Flatbread" data-price="16"> Add</label>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DESSERTS -->
+  <section class="menu-section" id="desserts">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">Course three</span><h2>Desserts</h2></div>
+        <span class="section-count">4 dishes</span>
+      </div>
+      <div class="menu-grid">
+
+        <article class="menu-item" data-diet="vegetarian">
+          <div class="thumb">🍮</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Yogurt &amp; Honey Cake</h3><span class="item-price">$9</span></div>
+            <p class="item-desc">Semolina cake, citrus syrup, sheep's-milk yogurt.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Yogurt & Honey Cake" data-price="9"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="vegan">
+          <div class="thumb">🍧</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Lemon Granita</h3><span class="item-price">$7</span></div>
+            <p class="item-desc">Shaved ice, fresh-pressed lemon, mint.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegan</span><span class="tag">Gluten-free</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Lemon Granita" data-price="7"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="vegetarian">
+          <div class="thumb">🥧</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Baklava</h3><span class="item-price">$8</span></div>
+            <p class="item-desc">Walnut &amp; pistachio, honey, orange blossom.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Baklava" data-price="8"> Add</label>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-item" data-diet="gluten-free">
+          <div class="thumb">🍫</div>
+          <div class="item-main">
+            <div class="item-top"><h3>Olive Oil Chocolate Cake</h3><span class="item-price">$10</span></div>
+            <p class="item-desc">Flourless, sea salt, whipped crema.</p>
+            <div class="item-foot">
+              <div class="dish-tags"><span class="tag">Gluten-free</span><span class="tag">Vegetarian</span></div>
+              <label class="add-check"><input type="checkbox" data-name="Olive Oil Chocolate Cake" data-price="10"> Add</label>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div style="height:32px;"></div>
+
+</main>
+
+<!-- STICKY ORDER SUMMARY -->
+<div class="order-bar" id="orderBar">
+  <div class="wrap">
+    <div class="order-info">
+      <span class="order-count" id="orderCount">0 dishes selected</span>
+      <span class="order-empty" id="orderEmptyMsg">Tick a dish above to start building your order</span>
+      <span class="order-total" id="orderTotal" style="display:none;"></span>
+    </div>
+    <a href="reservations.html" class="btn btn-primary">Reserve a table for these →</a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <span class="logo-main">Little Lemon</span>
+      <p>A family Mediterranean table, open in three neighbourhoods since 1971.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul><li><a href="index.html">Home</a></li><li><a href="reservations.html">Reservations</a></li><li><a href="menu.html">Menu</a></li></ul>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <ul><li>Grove Quarter</li><li>Harborside</li><li>Old Mill Square</li></ul>
+    </div>
+    <div>
+      <h4>Hours</h4>
+      <ul><li>Mon–Sun 11:00–22:00</li><li>Kitchen closes 21:30</li></ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 1971–2026 Little Lemon</span>
+    <span>Made with citrus &amp; patience</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

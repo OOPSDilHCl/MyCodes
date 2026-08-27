@@ -1,4 +1,5 @@
 #include <iostream>
+using namespace std;
 int power(int x,int n)//stack height=logn
 {
   if(n==0) return 1;
@@ -12,8 +13,8 @@ int power(int x,int n)//stack height=logn
 int main()
 {
  int x,n;
- std::cout<<"Enter the base and power:";
- std::cin>>x>>n;
- std::cout<<x<<"^"<<n<<"="<<power(x,n);
+ cout<<"Enter the base and power:"<<"\n";
+ cin>>x>>n;
+ cout<<x<<"^"<<n<<"="<<power(x,n);
  return 0;
 }

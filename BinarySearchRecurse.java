@@ -2,8 +2,8 @@ import java.util.*;
 public class BinarySearchRecurse{
   public static void main(String[] args){
     int[] arr={1,3,6,8,9,18,19,25};
-    int len=arr.length,ele=17,start=0,end=len-1;
-    binarySearch(arr,start,end,ele);
+    int len=arr.length,key=17,start=0,end=len-1;
+    binarySearch(arr,start,end,key);
   }
   public static void binarySearch(int[] bin,int start,int end,int target){
     int mid=start+(end-start)/2;
