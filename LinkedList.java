@@ -1,4 +1,17 @@
 public class LinkedList{
+  public void reverse(){
+    if(head==null){
+      return;
+    }
+    Node curr=head,prev=null;
+    while(curr!=null){
+      Node nextTemp=curr.next;
+      curr.next=prev;
+      prev=curr;
+      curr=nextTemp;
+    }
+    head=prev;
+  }
   public static void main(String[] args){
     LinkedList list=new LinkedList();
     list.addFirst(4);
@@ -15,12 +28,12 @@ public class LinkedList{
     System.out.println("New List:");
     list.print();
     list.remove(8);
-  /*list.removeLast();
+    list.removeLast();
     System.out.println("Final list:");
     list.print();
     list.reverse();
  System.out.println("Reverse the list:");
-    list.print();*/
+    list.print();
   }
   public void addLast(int val){
     Node newNode=new Node(val);
@@ -38,8 +51,35 @@ public class LinkedList{
     }
     curr.next=newNode;
   }
-  public void remove(){
-    
+  public void remove(int val){
+    if(head==null){
+      return;
+    }
+    if(head.val==val){
+      head=head.next;
+      return;
+    }
+    Node curr=head;
+    while(curr.next!=null && curr.next.val!=val){
+      curr=curr.next;
+    }
+    if(curr.next!=null){
+      curr.next=curr.next.next;
+    }
+  }
+  public void removeLast(){
+    if(head==null){
+      return;
+    }
+    else if(head.next==null){
+      head=null;
+      return;
+    }
+    Node curr=head;
+    while(curr.next.next!=null){
+      curr=curr.next;
+    }
+    curr.next=curr.next.next;
   }
   Node head;
   public static class Node{
