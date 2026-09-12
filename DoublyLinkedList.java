@@ -37,7 +37,7 @@ public class DoublyLinkedList<T>{
   }
   public T removeFirst(){
     if(head==null){
-      throw new java.util.NoSuchElementException();
+      throw new java.util.NoSuchElementException("List has no element");
     }
     T data=head.val;
     head=head.next;
@@ -65,7 +65,7 @@ public class DoublyLinkedList<T>{
   }
   public void printForward(){
     Node<T> curr=head;
-    StringBuilder sb=new StringBuilder();
+   StringBuilder sb=new StringBuilder();
     while(curr!=null){
       sb.append(curr.val).append("->");
       curr=curr.next;
@@ -75,7 +75,7 @@ public class DoublyLinkedList<T>{
   }
   public void printBackward(){
     Node<T> curr=tail;
-    StringBuilder sb=new StringBuilder();
+  StringBuilder sb=new StringBuilder();
     while(curr!=null){
       sb.append(curr.val).append("->");
       curr=curr.prev;
