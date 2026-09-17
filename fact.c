@@ -14,6 +14,6 @@ int main ()
   {
     fact*=i;
   }
-  printf("The factorial of the number is %lld",fact);
+  printf("Factorial: %lld",fact);
   return 0;
 }
