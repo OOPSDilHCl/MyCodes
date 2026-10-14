@@ -1,204 +1,1459 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Little Lemon — Mediterranean Table</title>
-<meta name="description" content="Little Lemon is a family-owned Mediterranean restaurant. Choose a location and reserve your table.">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>GameTok — Scroll & Play 23+ Instant Games</title>
+  <style>
+    :root {
+      --accent: #fe2c55;
+      --cyan: #00f2fe;
+      --gold: #facc15;
+      --green: #22c55e;
+      --bg: #050508;
+      --glass: rgba(18, 18, 28, 0.75);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background: var(--bg);
+      color: #fff;
+      overflow: hidden;
+      height: 100dvh;
+      width: 100vw;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    header > * {
+      pointer-events: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-shadow: 2px 2px 0 var(--accent), -2px -2px 0 var(--cyan);
+    }
+
+    .live-pill {
+      font-size: 0.72rem;
+      background: rgba(34, 197, 94, 0.18);
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      color: #4ade80;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-shadow: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 1.4s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.4; }
+    }
+
+    /* Center Feed Tabs */
+    .feed-tabs {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 6px 16px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+      padding: 4px 2px;
+      transition: 0.2s;
+    }
+
+    .tab-btn.active {
+      color: #fff;
+      font-size: 1.02rem;
+    }
+
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 15%;
+      width: 70%;
+      height: 3px;
+      background: var(--cyan);
+      border-radius: 2px;
+    }
+
+    .upload-btn {
+      background: linear-gradient(135deg, var(--accent), #ff5e7e);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 15px rgba(254, 44, 85, 0.35);
+    }
+
+    /* FIXED: Removed scroll-behavior: smooth so mouse wheel & touch snap never get stuck */
+    #feed {
+      height: 100dvh;
+      width: 100vw;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+
+    #feed::-webkit-scrollbar {
+      display: none;
+    }
+
+    .game-slide {
+      position: relative;
+      height: 100dvh;
+      width: 100vw;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #141629 0%, #050508 100%);
+      overflow: hidden;
+    }
+
+    .game-frame-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      height: 100%;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+      background: #0b0d17;
+      overflow: hidden;
+    }
+
+    /* FIXED: touch-action: pan-y allows vertical swipe scrolling on mobile while keeping game taps/drags */
+    canvas, iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: none;
+      touch-action: pan-y;
+      cursor: crosshair;
+    }
+
+    /* Floating Up/Down Scroll Navigator (TikTok Web Style) */
+    .scroll-nav {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 150;
+    }
+
+    .nav-arrow {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .nav-arrow:hover {
+      background: var(--cyan);
+      color: #000;
+      transform: scale(1.08);
+    }
+
+    @media (max-width: 768px) {
+      .scroll-nav {
+        right: 14px;
+        top: 86px;
+        transform: none;
+        flex-direction: row;
+      }
+      .nav-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Right Interaction Sidebar */
+    .sidebar {
+      position: absolute;
+      right: 14px;
+      bottom: 115px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .action-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .action-btn {
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #fff;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.25rem;
+      backdrop-filter: blur(8px);
+      transition: transform 0.18s, background 0.2s;
+    }
+
+    .action-btn:hover { transform: scale(1.08); }
+    .action-btn.liked { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 16px rgba(254, 44, 85, 0.6); }
+    .action-btn.faved { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 16px rgba(250, 204, 21, 0.5); }
+    .action-btn.subbed { background: var(--cyan); color: #000; border-color: var(--cyan); box-shadow: 0 0 16px rgba(0, 242, 254, 0.5); }
+
+    .action-label {
+      font-size: 0.73rem;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Bottom Game Info Overlay */
+    .game-info {
+      position: absolute;
+      bottom: 20px;
+      left: 16px;
+      right: 80px;
+      z-index: 20;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .algo-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      backdrop-filter: blur(6px);
+    }
+
+    .badge-algo {
+      background: rgba(0, 242, 254, 0.16);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+    }
+
+    .badge-genre {
+      background: rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+    }
+
+    .game-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+    }
+
+    .game-meta {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .dev-links {
+      pointer-events: auto;
+      display: flex;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .ext-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--cyan);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      backdrop-filter: blur(6px);
+      transition: 0.2s;
+    }
+
+    .ext-link:hover {
+      background: var(--cyan);
+      color: #000;
+    }
+
+    /* Upload Game Modal */
+    #modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      z-index: 300;
+      padding: 16px;
+    }
+
+    .modal-card {
+      background: #141624;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 24px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-card input, .modal-card select {
+      padding: 11px 12px;
+      border-radius: 8px;
+      border: 1px solid #2e324a;
+      background: #090a10;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: var(--cyan);
+      color: #000;
+      padding: 11px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-cancel {
+      background: #26293e;
+      color: #ccc;
+      padding: 11px 16px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .empty-state {
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      padding: 24px;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 600px) {
+      .brand span { display: none; }
+      header { padding: 0 12px; }
+    }
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="wrap">
-    <a href="index.html" class="logo">
-      <span class="logo-main">Little Lemon</span>
-      <span class="logo-sub">Mediterranean Table</span>
-    </a>
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Toggle navigation">
-      <span></span>
-    </button>
-    <nav class="main-nav" id="mainNav">
-      <a href="index.html" aria-current="page">Home</a>
-      <a href="reservations.html">Reservations</a>
-      <a href="menu.html">Menu</a>
-      <a href="reservations.html" class="btn btn-primary nav-cta">Book a table</a>
+  <!-- Top Bar -->
+  <header>
+    <div class="brand">
+      🎮 <span>GameTok</span>
+      <div class="live-pill" title="Total Concurrent Players Online">
+        <span class="live-dot"></span>
+        <span id="global-players">4,820</span> playing
+      </div>
+    </div>
+
+    <nav class="feed-tabs">
+      <button class="tab-btn" data-tab="following" onclick="switchTab('following')">Following</button>
+      <button class="tab-btn active" data-tab="foryou" onclick="switchTab('foryou')">For You</button>
+      <button class="tab-btn" data-tab="favorites" onclick="switchTab('favorites')">Saved ⭐</button>
     </nav>
+
+    <button class="upload-btn" onclick="toggleModal(true)">+ Upload</button>
+  </header>
+
+  <!-- Quick Scroll Up / Down Buttons -->
+  <div class="scroll-nav">
+    <button class="nav-arrow" onclick="scrollBySlide(-1)" title="Previous Game (Up Arrow)">▲</button>
+    <button class="nav-arrow" onclick="scrollBySlide(1)" title="Next Game (Down Arrow)">▼</button>
   </div>
-</header>
 
-<main>
+  <!-- Main Vertical Scroll-Snap Feed -->
+  <main id="feed"></main>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="wrap">
-      <div>
-        <span class="eyebrow">Est. 1971 · Family owned</span>
-        <h1>Good food,<br><em>slower</em> mornings.</h1>
-        <p class="lede">Little Lemon began as a single grill by the harbor and grew into three neighbourhood tables, each one still run the way Mario and Adrian started it — fresh citrus, wood fire, and no rush.</p>
-        <div class="actions">
-          <a href="#choose-location" class="btn btn-primary">Choose your table</a>
-          <a href="menu.html" class="btn btn-outline">See the menu</a>
-        </div>
-        <div class="meta-row">
-          <div><strong>3</strong>neighbourhood locations</div>
-          <div><strong>54</strong>years in business</div>
-          <div><strong>11–10</strong>open daily</div>
-        </div>
+  <!-- Upload Modal -->
+  <div id="modal">
+    <div class="modal-card">
+      <h3>Publish Your Game</h3>
+      <p style="font-size:0.8rem;color:#94a3b8;">Our algorithm automatically tests new uploads on players' For You feeds based on live engagement.</p>
+      <input id="up-title" placeholder="Game Title (e.g. Cyber Drift)" />
+      <input id="up-dev" placeholder="Developer Handle (e.g. @studio_x)" />
+      <input id="up-site" placeholder="Your Studio / Portfolio Website URL" />
+      <select id="up-genre">
+        <option value="Arcade">Genre: Arcade</option>
+        <option value="Reflex">Genre: Reflex</option>
+        <option value="Action">Genre: Action</option>
+        <option value="Puzzle">Genre: Puzzle</option>
+        <option value="Rhythm">Genre: Rhythm</option>
+      </select>
+      <input id="up-url" placeholder="HTML5 Game Embed URL (https://...)" />
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="uploadGame()">Launch Game</button>
+        <button class="btn-cancel" onclick="toggleModal(false)">Cancel</button>
       </div>
-      <div class="hero-art">
-        <svg class="wedge" width="260" height="260" viewBox="0 0 200 200" role="img" aria-label="Illustration of a lemon slice">
-          <circle class="rind" cx="100" cy="100" r="96"></circle>
-          <circle class="core" cx="100" cy="100" r="78"></circle>
-          <g class="seg">
-            <path d="M100 22 L100 178" fill="none"/>
-            <path d="M100 22 L152 45 M100 22 L48 45" fill="none"/>
-            <path d="M178 100 L22 100" fill="none"/>
-            <path d="M178 100 L155 152 M178 100 L155 48" fill="none"/>
-            <path d="M100 178 L100 22" fill="none"/>
-            <path d="M22 100 L45 152 M22 100 L45 48" fill="none"/>
-            <path d="M143 43 L57 157" fill="none"/>
-            <path d="M57 43 L143 157" fill="none"/>
-          </g>
-          <circle class="seed" cx="88" cy="82" r="5"></circle>
-          <circle class="seed" cx="118" cy="108" r="5"></circle>
-          <circle class="seed" cx="100" cy="128" r="5"></circle>
-        </svg>
-        <span class="ring-label">picked daily, sliced fresh</span>
-      </div>
-    </div>
-  </section>
-
-  <div class="scallop"></div>
-
-  <!-- LOCATION PICKER -->
-  <section class="section section--alt" id="choose-location">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">Step one</span>
-        <h2>Choose your Little Lemon</h2>
-        <p>Pick the table you'd like to visit — your reservation form will remember it.</p>
-      </div>
-
-      <form id="locationForm">
-        <div class="loc-grid">
-
-          <label class="loc-card">
-            <input type="radio" name="location" value="Grove Quarter" required>
-            <span class="loc-tag">Original 1971 site</span>
-            <h3>Grove Quarter</h3>
-            <p class="loc-addr">14 Harbor Lane, Old Grove Quarter</p>
-            <p class="loc-hours">Mon–Sun · 11:00 – 22:00<br>Patio seating &amp; wood-fired grill</p>
-          </label>
-
-          <label class="loc-card">
-            <input type="radio" name="location" value="Harborside" required>
-            <span class="loc-tag">Waterfront</span>
-            <h3>Harborside</h3>
-            <p class="loc-addr">2 Pier Row, Harborside Docks</p>
-            <p class="loc-hours">Mon–Sun · 12:00 – 23:00<br>Full bar &amp; sunset terrace</p>
-          </label>
-
-          <label class="loc-card">
-            <input type="radio" name="location" value="Old Mill Square" required>
-            <span class="loc-tag">Newest, 2019</span>
-            <h3>Old Mill Square</h3>
-            <p class="loc-addr">61 Mill Square, West Bank</p>
-            <p class="loc-hours">Tue–Sun · 11:30 – 21:30<br>Private dining room</p>
-          </label>
-
-        </div>
-
-        <div class="loc-continue">
-          <p class="picked" id="pickedLabel">No location selected yet.</p>
-          <button type="submit" class="btn btn-dark" id="continueBtn" disabled>Continue to reservations →</button>
-        </div>
-      </form>
-    </div>
-  </section>
-
-  <!-- STORY -->
-  <section class="section section--green">
-    <div class="wrap story">
-      <div class="story-art" aria-hidden="true"></div>
-      <div>
-        <span class="eyebrow" style="color:var(--yellow)">Our story</span>
-        <h2>Two friends, one grill, and too much lemon.</h2>
-        <p>Mario ran the kitchen his grandmother taught him in Corfu; Adrian handled the front of house and the wine list. In 1971 they pooled their savings for a single charcoal grill and a crate of lemons from the market next door — the crate never really emptied. Every dish since has kept that same instinct: char something over wood, finish it with citrus, serve it to people like family.</p>
-        <div class="founders">
-          <div><strong>Mario</strong><span>Chef &amp; co-founder</span></div>
-          <div><strong>Adrian</strong><span>Host &amp; co-founder</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="scallop on-green"></div>
-
-  <!-- SPECIALS TEASER -->
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">On the table this week</span>
-        <h2>A taste of the menu</h2>
-        <p>A short preview — the full menu has starters, mains, desserts and drinks, and you can build your order as you scroll.</p>
-      </div>
-      <div class="card-grid">
-        <article class="dish-card">
-          <div class="dish-media" style="background:#F1E8D2;">🍋</div>
-          <div class="dish-body">
-            <div class="dish-top"><h3>Lemon &amp; Herb Branzino</h3><span class="dish-price">$24</span></div>
-            <p>Whole grilled sea bass, charred lemon, wild oregano.</p>
-            <div class="dish-tags"><span class="tag">Gluten-free</span></div>
-          </div>
-        </article>
-        <article class="dish-card">
-          <div class="dish-media" style="background:#E9EFE6;">🥗</div>
-          <div class="dish-body">
-            <div class="dish-top"><h3>Grove Quarter Salad</h3><span class="dish-price">$14</span></div>
-            <p>Shaved fennel, orange, olives, mint, aged feta.</p>
-            <div class="dish-tags"><span class="tag">Vegetarian</span></div>
-          </div>
-        </article>
-        <article class="dish-card">
-          <div class="dish-media" style="background:#F7E6D8;">🍮</div>
-          <div class="dish-body">
-            <div class="dish-top"><h3>Yogurt &amp; Honey Cake</h3><span class="dish-price">$9</span></div>
-            <p>Semolina cake, citrus syrup, thick sheep's-milk yogurt.</p>
-            <div class="dish-tags"><span class="tag">Vegetarian</span></div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="wrap footer-grid">
-    <div class="footer-brand">
-      <span class="logo-main">Little Lemon</span>
-      <p>A family Mediterranean table, open in three neighbourhoods since 1971.</p>
-    </div>
-    <div>
-      <h4>Explore</h4>
-      <ul><li><a href="index.html">Home</a></li><li><a href="reservations.html">Reservations</a></li><li><a href="menu.html">Menu</a></li></ul>
-    </div>
-    <div>
-      <h4>Visit</h4>
-      <ul><li>Grove Quarter</li><li>Harborside</li><li>Old Mill Square</li></ul>
-    </div>
-    <div>
-      <h4>Hours</h4>
-      <ul><li>Mon–Sun 11:00–22:00</li><li>Kitchen closes 21:30</li></ul>
     </div>
   </div>
-  <div class="wrap footer-bottom">
-    <span>© 1971–2026 Little Lemon</span>
-    <span>Made with citrus &amp; patience</span>
-  </div>
-</footer>
 
-<script src="script.js"></script>
+  <script>
+    /********************************************************************
+     * 1. CATALOG OF 23 BUILT-IN PLAYABLE HTML5 CANVAS GAMES
+     ********************************************************************/
+    const gamesCatalog = [
+      { id: 'bounce',   title: 'Neon Breakout',   dev: '@pixel_forge',     site: 'https://itch.io',    genre: 'Arcade', likes: 1420, players: 312, traffic: 8900,  avgDwell: 28, hint: 'Move pointer to steer paddle & smash bricks' },
+      { id: 'target',   title: 'Cyber Aim Pro',   dev: '@nova_aim',        site: 'https://github.com', genre: 'Reflex', likes: 2390, players: 540, traffic: 14200, avgDwell: 35, hint: 'Tap shrinking targets before they vanish' },
+      { id: 'dodge',    title: 'Astro Meteor',    dev: '@indie_wave',      site: 'https://itch.io',    genre: 'Action', likes: 980,  players: 175, traffic: 5400,  avgDwell: 22, hint: 'Steer spaceship to dodge falling meteors' },
+      { id: 'flappy',   title: 'Flappy Cyber',    dev: '@retro_volt',      site: 'https://codepen.io', genre: 'Arcade', likes: 3150, players: 690, traffic: 19800, avgDwell: 42, hint: 'Tap or click to flap through laser gates' },
+      { id: 'snake',    title: 'Hyper Snake',     dev: '@neon_labs',       site: 'https://itch.io',    genre: 'Arcade', likes: 1870, players: 410, traffic: 11300, avgDwell: 31, hint: 'Guide the cyber serpent toward energy orbs' },
+      { id: 'invaders', title: 'Galaga Blitz',    dev: '@star_arcade',     site: 'https://github.com', genre: 'Action', likes: 2640, players: 485, traffic: 15600, avgDwell: 38, hint: 'Move ship to blast descending alien squadrons' },
+      { id: 'gravity',  title: 'Gravity Runner',  dev: '@flux_games',      site: 'https://itch.io',    genre: 'Reflex', likes: 1560, players: 295, traffic: 9400,  avgDwell: 27, hint: 'Tap to flip gravity between floor & ceiling' },
+      { id: 'stack',    title: 'Neon Stacker',    dev: '@block_craft',     site: 'https://codepen.io', genre: 'Arcade', likes: 2890, players: 620, traffic: 17500, avgDwell: 40, hint: 'Tap to drop sliding blocks with precision' },
+      { id: 'slash',    title: 'Polygon Ninja',   dev: '@blade_works',     site: 'https://itch.io',    genre: 'Reflex', likes: 2100, players: 460, traffic: 12900, avgDwell: 33, hint: 'Move across flying shapes • Avoid red mines!' },
+      { id: 'whack',    title: 'Whack-a-Bot',     dev: '@cyber_grid',      site: 'https://github.com', genre: 'Reflex', likes: 890,  players: 140, traffic: 4900,  avgDwell: 19, hint: 'Tap rogue bots popping out of the 3x3 matrix' },
+      { id: 'pong',     title: 'Hyper Pong AI',   dev: '@pixel_forge',     site: 'https://itch.io',    genre: 'Arcade', likes: 1740, players: 350, traffic: 10200, avgDwell: 29, hint: 'Defeat the adaptive AI paddle at the top' },
+      { id: 'orbit',    title: 'Orbit Survival',  dev: '@cosmos_dev',      site: 'https://itch.io',    genre: 'Reflex', likes: 1320, players: 265, traffic: 8100,  avgDwell: 25, hint: 'Tap to switch orbit rings & dodge solar flares' },
+      { id: 'bubble',   title: 'Sonar Chain',     dev: '@zen_interactive', site: 'https://codepen.io', genre: 'Puzzle', likes: 1650, players: 310, traffic: 9800,  avgDwell: 30, hint: 'Tap to trigger chain-reaction shockwaves' },
+      { id: 'climber',  title: 'Sky Jumper',      dev: '@cloud_nine',      site: 'https://itch.io',    genre: 'Arcade', likes: 2450, players: 530, traffic: 14900, avgDwell: 36, hint: 'Steer left & right to bounce up endless platforms' },
+      { id: 'shield',   title: 'Aegis Core',      dev: '@nova_aim',        site: 'https://github.com', genre: 'Action', likes: 1980, players: 420, traffic: 11800, avgDwell: 32, hint: 'Rotate orbital shield around core to deflect lasers' },
+      { id: 'chroma',   title: 'Chroma Gate',     dev: '@flux_games',      site: 'https://itch.io',    genre: 'Reflex', likes: 2210, players: 490, traffic: 13400, avgDwell: 34, hint: 'Tap to jump through matching color barriers' },
+      { id: 'memory',   title: 'Synth Memory',    dev: '@mind_grid',       site: 'https://codepen.io', genre: 'Puzzle', likes: 1120, players: 205, traffic: 6800,  avgDwell: 26, hint: 'Tap the flashing neon tile before it fades' },
+      { id: 'zombie',   title: 'Swarm Survivor',  dev: '@star_arcade',     site: 'https://github.com', genre: 'Action', likes: 2780, players: 595, traffic: 16400, avgDwell: 39, hint: 'Aim pointer to fire plasma at 360° zombie waves' },
+      { id: 'racer',    title: 'OutRun 2099',     dev: '@retro_volt',      site: 'https://codepen.io', genre: 'Arcade', likes: 2540, players: 515, traffic: 15100, avgDwell: 37, hint: 'Steer across 3 synthwave highway lanes at turbo speed' },
+      { id: 'pinball',  title: 'Neon Bumper',     dev: '@neon_labs',       site: 'https://itch.io',    genre: 'Arcade', likes: 1490, players: 280, traffic: 8700,  avgDwell: 27, hint: 'Steer flipper to launch ball into score bumpers' },
+      { id: 'rhythm',   title: 'Beat Drop 4K',    dev: '@synth_wave',      site: 'https://itch.io',    genre: 'Rhythm', likes: 2950, players: 640, traffic: 18200, avgDwell: 41, hint: 'Tap lanes when falling synth notes hit the cyan line' },
+      { id: 'copter',   title: 'Cave Thruster',   dev: '@indie_wave',      site: 'https://itch.io',    genre: 'Arcade', likes: 1830, players: 390, traffic: 11000, avgDwell: 31, hint: 'Hold pointer down to thrust up • Release to descend' },
+      { id: 'boss',     title: 'Titan Crit RPG',  dev: '@blade_works',     site: 'https://itch.io',    genre: 'Action', likes: 2310, players: 505, traffic: 13900, avgDwell: 35, hint: 'Tap when the pendulum hits the golden CRIT zone!' }
+    ];
+
+    /********************************************************************
+     * 2. USER PROFILE & AUTOMATIC RECOMMENDATION ALGORITHM ENGINE
+     ********************************************************************/
+    const userState = {
+      currentTab: 'foryou',
+      likedIds: new Set(),
+      favedIds: new Set(),
+      subscribedDevs: new Set(),
+      genreAffinity: { Arcade: 1, Reflex: 1, Action: 1, Puzzle: 1, Rhythm: 1 },
+      activeSlideIdx: 0
+    };
+
+    function calculateAlgorithmScore(game) {
+      const likeWeight = game.likes * 2.2;
+      const livePlayerWeight = game.players * 6.5;
+      const trafficWeight = game.traffic * 0.35;
+      const retentionWeight = game.avgDwell * 45;
+      const genreMultiplier = userState.genreAffinity[game.genre] || 1;
+      const subBoost = userState.subscribedDevs.has(game.dev) ? 2500 : 0;
+
+      return Math.round(((likeWeight + livePlayerWeight + trafficWeight + retentionWeight) * genreMultiplier) + subBoost);
+    }
+
+    function getRecommendationReason(game) {
+      if (userState.subscribedDevs.has(game.dev)) return `💎 Subscribed Developer`;
+      if (game.players > 500) return `🔥 ${game.players} Playing Now • High Traffic`;
+      if ((userState.genreAffinity[game.genre] || 1) > 1.25) return `⚡ 98% Match • Because you play ${game.genre}`;
+      if (game.likes > 2200) return `👑 Top Liked in ${game.genre}`;
+      return `✨ Trending on For You`;
+    }
+
+    function reoptimizeUpcomingFeed() {
+      if (userState.currentTab !== 'foryou') return;
+      const feed = document.getElementById('feed');
+      const slides = Array.from(feed.querySelectorAll('.game-slide'));
+      if (slides.length <= userState.activeSlideIdx + 2) return;
+
+      const upcomingSlides = slides.slice(userState.activeSlideIdx + 1);
+      upcomingSlides.sort((a, b) => {
+        const gA = gamesCatalog.find(g => String(g.id) === a.dataset.id);
+        const gB = gamesCatalog.find(g => String(g.id) === b.dataset.id);
+        return calculateAlgorithmScore(gB) - calculateAlgorithmScore(gA);
+      });
+
+      upcomingSlides.forEach((slide, idxOffset) => {
+        slide.dataset.idx = userState.activeSlideIdx + 1 + idxOffset;
+        const g = gamesCatalog.find(x => String(x.id) === slide.dataset.id);
+        const badgeEl = slide.querySelector('.badge-algo');
+        if (badgeEl && g) badgeEl.textContent = getRecommendationReason(g);
+        feed.appendChild(slide);
+      });
+    }
+
+    /********************************************************************
+     * 3. SCROLLING CONTROLS (Wheel, Touch, Buttons & Keyboard Arrows)
+     ********************************************************************/
+    function scrollBySlide(direction) {
+      const feed = document.getElementById('feed');
+      const slides = feed.querySelectorAll('.game-slide');
+      if (!slides.length) return;
+      const targetIdx = Math.max(0, Math.min(slides.length - 1, userState.activeSlideIdx + direction));
+      slides[targetIdx].scrollIntoView({ behavior: 'smooth' });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (document.getElementById('modal').style.display === 'flex') return;
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault();
+        scrollBySlide(1);
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        scrollBySlide(-1);
+      }
+    });
+
+    /********************************************************************
+     * 4. FEED RENDERING & LIFECYCLE MANAGEMENT (IntersectionObserver)
+     ********************************************************************/
+    const activeLoops = new Map();
+    let slideObserver = null;
+
+    function getFilteredFeedList() {
+      let list = [...gamesCatalog];
+      if (userState.currentTab === 'following') {
+        list = list.filter(g => userState.subscribedDevs.has(g.dev));
+      } else if (userState.currentTab === 'favorites') {
+        list = list.filter(g => userState.favedIds.has(g.id));
+      }
+      list.sort((a, b) => calculateAlgorithmScore(b) - calculateAlgorithmScore(a));
+      return list;
+    }
+
+    function switchTab(tab) {
+      userState.currentTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tab);
+      });
+      renderFeed();
+    }
+
+    function renderFeed() {
+      activeLoops.forEach(loopObj => { loopObj.running = false; });
+      activeLoops.clear();
+      if (slideObserver) slideObserver.disconnect();
+
+      const feed = document.getElementById('feed');
+      feed.innerHTML = '';
+      const list = getFilteredFeedList();
+
+      if (list.length === 0) {
+        feed.innerHTML = `
+          <div class="empty-state">
+            <h2>${userState.currentTab === 'following' ? 'No Subscriptions Yet' : 'No Saved Games Yet'}</h2>
+            <p>${userState.currentTab === 'following'
+              ? 'Tap the ➕ button on any game in your For You feed to subscribe to its developer.'
+              : 'Tap the ⭐ button on any game to save it to your favorites.'}</p>
+            <button class="upload-btn" onclick="switchTab('foryou')">Explore For You Feed</button>
+          </div>
+        `;
+        return;
+      }
+
+      slideObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const id = entry.target.dataset.id;
+          const idx = Number(entry.target.dataset.idx);
+          const loopObj = activeLoops.get(id);
+          if (entry.isIntersecting) {
+            userState.activeSlideIdx = idx;
+            const g = gamesCatalog.find(x => String(x.id) === id);
+            if (g) {
+              g.traffic++;
+              const viewsEl = entry.target.querySelector('.views-count');
+              if (viewsEl) viewsEl.textContent = g.traffic.toLocaleString();
+            }
+            if (loopObj && !loopObj.running) {
+              loopObj.running = true;
+              loopObj.tick();
+            }
+          } else {
+            if (loopObj) loopObj.running = false;
+          }
+        });
+      }, { threshold: 0.55 });
+
+      list.forEach((g, idx) => {
+        const isLiked = userState.likedIds.has(g.id);
+        const isFaved = userState.favedIds.has(g.id);
+        const isSubbed = userState.subscribedDevs.has(g.dev);
+
+        const slide = document.createElement('section');
+        slide.className = 'game-slide';
+        slide.dataset.id = g.id;
+        slide.dataset.idx = idx;
+
+        slide.innerHTML = `
+          <div class="game-frame-wrapper">
+            ${g.embedUrl
+              ? `<iframe src="${g.embedUrl}" sandbox="allow-scripts allow-same-origin allow-pointer-lock"></iframe>`
+              : `<canvas id="canvas-${g.id}" width="480" height="800"></canvas>`
+            }
+
+            <div class="sidebar">
+              <div class="action-item">
+                <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${g.id}', this)" title="Like Game">❤️</button>
+                <span class="action-label like-count">${g.likes.toLocaleString()}</span>
+              </div>
+
+              <div class="action-item">
+                <button class="action-btn" title="Live Concurrent Players">🟢</button>
+                <span class="action-label player-count" data-id="${g.id}">${g.players}</span>
+              </div>
+
+              <div class="action-item">
+                <button class="action-btn ${isFaved ? 'faved' : ''}" onclick="toggleFav('${g.id}', this)" title="Save to Favorites">⭐</button>
+                <span class="action-label">${isFaved ? 'Saved' : 'Save'}</span>
+              </div>
+
+              <div class="action-item">
+                <button class="action-btn ${isSubbed ? 'subbed' : ''}" data-dev="${g.dev}" onclick="toggleSub('${g.dev}')" title="Subscribe to Developer">${isSubbed ? '✓' : '➕'}</button>
+                <span class="action-label sub-label" data-dev="${g.dev}">${isSubbed ? 'Subbed' : 'Follow'}</span>
+              </div>
+            </div>
+
+            <div class="game-info">
+              <div class="algo-badges">
+                <span class="badge badge-algo">${getRecommendationReason(g)}</span>
+                <span class="badge badge-genre">${g.genre}</span>
+              </div>
+              <div class="game-title">${g.title}</div>
+              <div class="game-meta">
+                <strong>${g.dev}</strong> • <span class="views-count">${g.traffic.toLocaleString()}</span> plays • ${g.hint || 'Interactive HTML5 Game'}
+              </div>
+              <div class="dev-links">
+                <a class="ext-link" href="${g.site}" target="_blank" rel="noopener">🌐 Developer Website ↗</a>
+              </div>
+            </div>
+          </div>
+        `;
+
+        feed.appendChild(slide);
+        if (!g.embedUrl) setupBuiltInGame(g.id, g);
+        slideObserver.observe(slide);
+      });
+
+      feed.scrollTop = 0;
+    }
+
+    /********************************************************************
+     * 5. SOCIAL & TELEMETRY INTERACTIONS
+     ********************************************************************/
+    function toggleLike(id, btn) {
+      const g = gamesCatalog.find(x => String(x.id) === String(id));
+      if (!g) return;
+      if (userState.likedIds.has(g.id)) {
+        userState.likedIds.delete(g.id);
+        g.likes--;
+        btn.classList.remove('liked');
+      } else {
+        userState.likedIds.add(g.id);
+        g.likes++;
+        btn.classList.add('liked');
+        userState.genreAffinity[g.genre] = (userState.genreAffinity[g.genre] || 1) + 0.35;
+        reoptimizeUpcomingFeed();
+      }
+      btn.parentElement.querySelector('.like-count').textContent = g.likes.toLocaleString();
+    }
+
+    function toggleFav(id, btn) {
+      const g = gamesCatalog.find(x => String(x.id) === String(id));
+      if (!g) return;
+      if (userState.favedIds.has(g.id)) {
+        userState.favedIds.delete(g.id);
+        btn.classList.remove('faved');
+        btn.nextElementSibling.textContent = 'Save';
+      } else {
+        userState.favedIds.add(g.id);
+        btn.classList.add('faved');
+        btn.nextElementSibling.textContent = 'Saved';
+        userState.genreAffinity[g.genre] = (userState.genreAffinity[g.genre] || 1) + 0.4;
+        reoptimizeUpcomingFeed();
+      }
+    }
+
+    function toggleSub(devHandle) {
+      const subbed = userState.subscribedDevs.has(devHandle);
+      if (subbed) userState.subscribedDevs.delete(devHandle);
+      else userState.subscribedDevs.add(devHandle);
+
+      document.querySelectorAll(`button[data-dev="${devHandle}"]`).forEach(b => {
+        b.classList.toggle('subbed', !subbed);
+        b.textContent = !subbed ? '✓' : '➕';
+      });
+      document.querySelectorAll(`.sub-label[data-dev="${devHandle}"]`).forEach(l => {
+        l.textContent = !subbed ? 'Subbed' : 'Follow';
+      });
+      reoptimizeUpcomingFeed();
+    }
+
+    function toggleModal(show) {
+      document.getElementById('modal').style.display = show ? 'flex' : 'none';
+    }
+
+    function uploadGame() {
+      const title = document.getElementById('up-title').value.trim() || 'Untitled Cyber Game';
+      let dev = document.getElementById('up-dev').value.trim() || '@creator';
+      if (!dev.startsWith('@')) dev = '@' + dev;
+      const site = document.getElementById('up-site').value.trim() || 'https://itch.io';
+      const genre = document.getElementById('up-genre').value;
+      const embedUrl = document.getElementById('up-url').value.trim();
+
+      if (!embedUrl) {
+        alert('Please enter an HTML5 game URL to embed.');
+        return;
+      }
+
+      gamesCatalog.unshift({
+        id: 'custom-' + Date.now(),
+        title,
+        dev,
+        site,
+        genre,
+        likes: 1,
+        players: 12,
+        traffic: 1,
+        avgDwell: 30,
+        embedUrl,
+        hint: 'Custom Uploaded Game'
+      });
+
+      toggleModal(false);
+      switchTab('foryou');
+    }
+
+    setInterval(() => {
+      let totalOnline = 0;
+      gamesCatalog.forEach(g => {
+        const delta = Math.floor(Math.random() * 11) - 5;
+        g.players = Math.max(12, g.players + delta);
+        totalOnline += g.players;
+        const el = document.querySelector(`.player-count[data-id="${g.id}"]`);
+        if (el) el.textContent = g.players;
+      });
+      document.getElementById('global-players').textContent = totalOnline.toLocaleString();
+    }, 3000);
+
+    /********************************************************************
+     * 6. UNIFIED ENGINE FOR ALL 23 PLAYABLE HTML5 CANVAS MINI-GAMES
+     ********************************************************************/
+    function setupBuiltInGame(id, gameMeta) {
+      const canvas = document.getElementById(`canvas-${id}`);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      const input = { x: 240, y: 400, isDown: false, justPressed: false };
+      const updateCoords = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        input.x = ((e.clientX - rect.left) / rect.width) * canvas.width;
+        input.y = ((e.clientY - rect.top) / rect.height) * canvas.height;
+      };
+
+      canvas.addEventListener('pointermove', updateCoords);
+      canvas.addEventListener('pointerdown', (e) => {
+        updateCoords(e);
+        input.isDown = true;
+        input.justPressed = true;
+        gameMeta.avgDwell += 0.25;
+        userState.genreAffinity[gameMeta.genre] = (userState.genreAffinity[gameMeta.genre] || 1) + 0.02;
+      });
+      window.addEventListener('pointerup', () => { input.isDown = false; });
+
+      const state = { score: 0, best: 0, frame: 0 };
+      const renderFn = createGameLogic(id, state);
+
+      const loopObj = {
+        running: false,
+        tick() {
+          if (!this.running) return;
+          state.frame++;
+          renderFn(ctx, state, input);
+          if (state.score > state.best) state.best = state.score;
+          drawHUD(ctx, state.score, state.best, userState.activeSlideIdx + 1, gamesCatalog.length);
+          input.justPressed = false;
+          requestAnimationFrame(() => this.tick());
+        }
+      };
+
+      activeLoops.set(String(id), loopObj);
+    }
+
+    function drawHUD(ctx, score, best, slideNum, totalSlides) {
+      ctx.save();
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+      ctx.fillRect(16, 76, 290, 42);
+      ctx.strokeStyle = 'rgba(0, 242, 254, 0.4)';
+      ctx.strokeRect(16, 76, 290, 42);
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 15px sans-serif';
+      ctx.fillText(`SCORE: ${score}`, 26, 102);
+      ctx.fillStyle = '#00f2fe';
+      ctx.fillText(`BEST: ${best}`, 130, 102);
+      ctx.fillStyle = '#facc15';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText(`GAME ${slideNum}/${totalSlides}`, 222, 101);
+      ctx.restore();
+    }
+
+    function createGameLogic(id, s) {
+      switch (id) {
+        case 'bounce': {
+          s.bx = 240; s.by = 420; s.dx = 5; s.dy = -5; s.px = 190;
+          const makeBricks = () => {
+            const arr = [];
+            for (let r = 0; r < 5; r++)
+              for (let c = 0; c < 6; c++)
+                arr.push({ x: 28 + c * 72, y: 150 + r * 32, alive: true, color: `hsl(${r * 55 + 180}, 95%, 60%)` });
+            return arr;
+          };
+          s.bricks = makeBricks();
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#090b16'; ctx.fillRect(0, 0, 480, 800);
+            st.px = Math.max(10, Math.min(370, inp.x - 50));
+            st.bx += st.dx; st.by += st.dy;
+            if (st.bx < 10 || st.bx > 470) st.dx *= -1;
+            if (st.by < 70) st.dy *= -1;
+            if (st.by > 630 && st.by < 655 && st.bx > st.px && st.bx < st.px + 100) {
+              st.dy = -Math.abs(st.dy);
+              st.dx = ((st.bx - (st.px + 50)) / 50) * 6.5;
+            }
+            if (st.by > 790) { st.bx = 240; st.by = 420; st.dy = -5; st.score = 0; st.bricks = makeBricks(); }
+            let rem = 0;
+            st.bricks.forEach(b => {
+              if (!b.alive) return;
+              rem++;
+              ctx.fillStyle = b.color;
+              ctx.fillRect(b.x, b.y, 64, 22);
+              if (st.bx > b.x && st.bx < b.x + 64 && st.by > b.y && st.by < b.y + 22) {
+                b.alive = false; st.dy *= -1; st.score += 10;
+              }
+            });
+            if (rem === 0) st.bricks = makeBricks();
+            ctx.fillStyle = '#fe2c55'; ctx.fillRect(st.px, 640, 100, 14);
+            ctx.fillStyle = '#00f2fe'; ctx.beginPath(); ctx.arc(st.bx, st.by, 10, 0, Math.PI * 2); ctx.fill();
+          };
+        }
+
+        case 'target': {
+          s.targets = [
+            { x: 140, y: 300, r: 42 },
+            { x: 340, y: 450, r: 38 },
+            { x: 220, y: 560, r: 45 }
+          ];
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0b1120'; ctx.fillRect(0, 0, 480, 800);
+            st.targets.forEach(t => {
+              t.r -= 0.22;
+              if (t.r <= 6) {
+                t.x = 60 + Math.random() * 360;
+                t.y = 160 + Math.random() * 460;
+                t.r = 46;
+                st.score = Math.max(0, st.score - 1);
+              }
+              if (inp.justPressed && Math.hypot(inp.x - t.x, inp.y - t.y) <= t.r + 8) {
+                st.score += 5;
+                t.x = 60 + Math.random() * 360;
+                t.y = 160 + Math.random() * 460;
+                t.r = 46;
+              }
+              ctx.strokeStyle = '#00f2fe'; ctx.lineWidth = 3;
+              ctx.beginPath(); ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2); ctx.stroke();
+              ctx.fillStyle = '#fe2c55';
+              ctx.beginPath(); ctx.arc(t.x, t.y, t.r * 0.45, 0, Math.PI * 2); ctx.fill();
+            });
+          };
+        }
+
+        case 'dodge': {
+          s.meteors = Array.from({ length: 6 }, (_, i) => ({
+            x: Math.random() * 440 + 20, y: -i * 140, s: 4.5 + Math.random() * 3, r: 18 + Math.random() * 14
+          }));
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#09071a'; ctx.fillRect(0, 0, 480, 800);
+            const px = Math.max(25, Math.min(455, inp.x));
+            ctx.fillStyle = '#00f2fe';
+            ctx.beginPath(); ctx.moveTo(px, 600); ctx.lineTo(px - 20, 640); ctx.lineTo(px + 20, 640); ctx.closePath(); ctx.fill();
+            st.meteors.forEach(m => {
+              m.y += m.s;
+              if (m.y > 830) { m.y = -40; m.x = 25 + Math.random() * 430; st.score++; }
+              if (Math.hypot(px - m.x, 620 - m.y) < m.r + 15) { st.score = 0; m.y = -50; }
+              ctx.fillStyle = '#f97316';
+              ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2); ctx.fill();
+            });
+          };
+        }
+
+        case 'flappy': {
+          s.by = 360; s.vy = 0; s.px = 480; s.gapY = 280;
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0a1224'; ctx.fillRect(0, 0, 480, 800);
+            if (inp.justPressed) st.vy = -7.8;
+            st.vy += 0.38; st.by += st.vy;
+            st.px -= 4.5;
+            if (st.px < -70) { st.px = 480; st.gapY = 180 + Math.random() * 320; st.score++; }
+            ctx.fillStyle = '#22c55e';
+            ctx.fillRect(st.px, 0, 65, st.gapY);
+            ctx.fillRect(st.px, st.gapY + 175, 65, 800);
+            ctx.fillStyle = '#facc15';
+            ctx.beginPath(); ctx.arc(120, st.by, 16, 0, Math.PI * 2); ctx.fill();
+            if (st.by > 760 || st.by < 40 || (120 + 14 > st.px && 120 - 14 < st.px + 65 && (st.by - 14 < st.gapY || st.by + 14 > st.gapY + 175))) {
+              st.by = 360; st.vy = 0; st.px = 480; st.score = 0;
+            }
+          };
+        }
+
+        case 'snake': {
+          s.trail = [{ x: 240, y: 400 }]; s.len = 18; s.fx = 160; s.fy = 300; s.hx = 240; s.hy = 400; s.ang = 0;
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#071318'; ctx.fillRect(0, 0, 480, 800);
+            st.ang = Math.atan2(inp.y - st.hy, inp.x - st.hx);
+            st.hx += Math.cos(st.ang) * 4.5;
+            st.hy += Math.sin(st.ang) * 4.5;
+            st.trail.push({ x: st.hx, y: st.hy });
+            while (st.trail.length > st.len) st.trail.shift();
+            if (Math.hypot(st.hx - st.fx, st.hy - st.fy) < 24) {
+              st.score += 10; st.len += 8;
+              st.fx = 50 + Math.random() * 380; st.fy = 150 + Math.random() * 480;
+            }
+            ctx.fillStyle = '#fe2c55'; ctx.beginPath(); ctx.arc(st.fx, st.fy, 12, 0, Math.PI * 2); ctx.fill();
+            st.trail.forEach((p, i) => {
+              ctx.fillStyle = `hsl(${160 + i * 2}, 90%, 55%)`;
+              ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, Math.PI * 2); ctx.fill();
+            });
+          };
+        }
+
+        case 'invaders': {
+          s.bullets = [];
+          s.aliens = Array.from({ length: 7 }, (_, i) => ({ x: 50 + i * 60, y: 140 + (i % 2) * 50, s: 2.2 }));
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#060612'; ctx.fillRect(0, 0, 480, 800);
+            const px = Math.max(30, Math.min(450, inp.x));
+            if (st.frame % 12 === 0) st.bullets.push({ x: px, y: 610 });
+            ctx.fillStyle = '#00f2fe';
+            ctx.fillRect(px - 18, 620, 36, 18);
+            st.bullets.forEach(b => { b.y -= 9; ctx.fillStyle = '#facc15'; ctx.fillRect(b.x - 3, b.y, 6, 14); });
+            st.bullets = st.bullets.filter(b => b.y > 60);
+            st.aliens.forEach(a => {
+              a.y += a.s;
+              if (a.y > 620) { a.y = 120; a.x = 40 + Math.random() * 400; st.score = 0; }
+              ctx.fillStyle = '#ec4899';
+              ctx.beginPath(); ctx.arc(a.x, a.y, 18, 0, Math.PI * 2); ctx.fill();
+              st.bullets.forEach(b => {
+                if (Math.hypot(b.x - a.x, b.y - a.y) < 22) {
+                  a.y = 110; a.x = 40 + Math.random() * 400; b.y = -10; st.score += 5;
+                }
+              });
+            });
+          };
+        }
+
+        case 'gravity': {
+          s.py = 520; s.vy = 0; s.grav = 0.8; s.obs = [{ x: 480, top: false }, { x: 740, top: true }];
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#110d24'; ctx.fillRect(0, 0, 480, 800);
+            ctx.fillStyle = '#334155'; ctx.fillRect(0, 220, 480, 12); ctx.fillRect(0, 560, 480, 12);
+            if (inp.justPressed) st.grav *= -1;
+            st.vy += st.grav; st.py += st.vy;
+            if (st.py > 536) { st.py = 536; st.vy = 0; }
+            if (st.py < 232) { st.py = 232; st.vy = 0; }
+            ctx.fillStyle = '#00f2fe'; ctx.fillRect(100, st.py, 24, 24);
+            st.obs.forEach(o => {
+              o.x -= 6;
+              if (o.x < -40) { o.x = 500; o.top = Math.random() > 0.5; st.score++; }
+              const oy = o.top ? 232 : 510;
+              ctx.fillStyle = '#fe2c55'; ctx.fillRect(o.x, oy, 28, 50);
+              if (124 > o.x && 100 < o.x + 28 && st.py + 24 > oy && st.py < oy + 50) st.score = 0;
+            });
+          };
+        }
+
+        case 'stack': {
+          s.stack = [{ x: 140, w: 200 }]; s.cx = 40; s.cw = 200; s.dir = 5;
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0c1021'; ctx.fillRect(0, 0, 480, 800);
+            st.cx += st.dir;
+            if (st.cx < 10 || st.cx + st.cw > 470) st.dir *= -1;
+            if (inp.justPressed) {
+              const top = st.stack[st.stack.length - 1];
+              const left = Math.max(st.cx, top.x);
+              const right = Math.min(st.cx + st.cw, top.x + top.w);
+              const overlap = right - left;
+              if (overlap > 12) {
+                st.cw = overlap; st.cx = left;
+                st.stack.push({ x: left, w: overlap });
+                if (st.stack.length > 12) st.stack.shift();
+                st.score++;
+              } else {
+                st.stack = [{ x: 140, w: 200 }]; st.cw = 200; st.score = 0;
+              }
+            }
+            st.stack.forEach((b, i) => {
+              ctx.fillStyle = `hsl(${i * 25 + 190}, 90%, 55%)`;
+              ctx.fillRect(b.x, 620 - i * 32, b.w, 28);
+            });
+            ctx.fillStyle = '#facc15';
+            ctx.fillRect(st.cx, 620 - st.stack.length * 32, st.cw, 28);
+          };
+        }
+
+        case 'slash': {
+          s.items = Array.from({ length: 4 }, () => ({
+            x: 80 + Math.random() * 320, y: 780, vx: (Math.random() - 0.5) * 4, vy: -13 - Math.random() * 4, bomb: false
+          }));
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#12091c'; ctx.fillRect(0, 0, 480, 800);
+            st.items.forEach(it => {
+              it.x += it.vx; it.y += it.vy; it.vy += 0.28;
+              if (it.y > 820) {
+                it.x = 80 + Math.random() * 320; it.y = 780;
+                it.vx = (Math.random() - 0.5) * 4.5; it.vy = -13 - Math.random() * 4;
+                it.bomb = Math.random() < 0.22;
+              }
+              if (Math.hypot(inp.x - it.x, inp.y - it.y) < 34) {
+                if (it.bomb) st.score = 0; else st.score += 5;
+                it.y = 830;
+              }
+              ctx.fillStyle = it.bomb ? '#ef4444' : '#00f2fe';
+              ctx.beginPath(); ctx.arc(it.x, it.y, 26, 0, Math.PI * 2); ctx.fill();
+            });
+          };
+        }
+
+        case 'whack': {
+          s.activeHole = 4; s.timer = 45;
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, 480, 800);
+            st.timer--;
+            if (st.timer <= 0) { st.activeHole = Math.floor(Math.random() * 9); st.timer = 42; }
+            for (let i = 0; i < 9; i++) {
+              const hx = 110 + (i % 3) * 130;
+              const hy = 250 + Math.floor(i / 3) * 130;
+              ctx.fillStyle = '#1e293b';
+              ctx.beginPath(); ctx.arc(hx, hy, 45, 0, Math.PI * 2); ctx.fill();
+              if (i === st.activeHole) {
+                ctx.fillStyle = '#22c55e';
+                ctx.beginPath(); ctx.arc(hx, hy, 34, 0, Math.PI * 2); ctx.fill();
+                if (inp.justPressed && Math.hypot(inp.x - hx, inp.y - hy) < 48) {
+                  st.score += 10; st.activeHole = Math.floor(Math.random() * 9); st.timer = 40;
+                }
+              }
+            }
+          };
+        }
+
+        case 'pong': {
+          s.bx = 240; s.by = 400; s.vx = 5; s.vy = 6; s.aix = 200;
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#070b19'; ctx.fillRect(0, 0, 480, 800);
+            const px = Math.max(10, Math.min(380, inp.x - 45));
+            st.aix += (st.bx - (st.aix + 45)) * 0.12;
+            st.bx += st.vx; st.by += st.vy;
+            if (st.bx < 12 || st.bx > 468) st.vx *= -1;
+            if (st.by < 165 && st.bx > st.aix && st.bx < st.aix + 90) st.vy = Math.abs(st.vy);
+            if (st.by > 625 && st.by < 650 && st.bx > px && st.bx < px + 90) { st.vy = -Math.abs(st.vy); st.score++; }
+            if (st.by > 790 || st.by < 90) { st.bx = 240; st.by = 400; if (st.by > 790) st.score = 0; }
+            ctx.fillStyle = '#fe2c55'; ctx.fillRect(st.aix, 150, 90, 14);
+            ctx.fillStyle = '#00f2fe'; ctx.fillRect(px, 635, 90, 14);
+            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(st.bx, st.by, 10, 0, Math.PI * 2); ctx.fill();
+          };
+        }
+
+        case 'orbit': {
+          s.ang = 0; s.outer = true; s.enemyAng = 3.14;
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#090919'; ctx.fillRect(0, 0, 480, 800);
+            if (inp.justPressed) { st.outer = !st.outer; st.score++; }
+            st.ang += 0.045; st.enemyAng -= 0.035;
+            const r = st.outer ? 150 : 85;
+            ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(240, 400, 85, 0, Math.PI * 2); ctx.stroke();
+            ctx.beginPath(); ctx.arc(240, 400, 150, 0, Math.PI * 2); ctx.stroke();
+            const px = 240 + Math.cos(st.ang) * r, py = 400 + Math.sin(st.ang) * r;
+            const ex = 240 + Math.cos(st.enemyAng) * 150, ey = 400 + Math.sin(st.enemyAng) * 150;
+            if (Math.hypot(px - ex, py - ey) < 26) st.score = 0;
+            ctx.fillStyle = '#facc15'; ctx.beginPath(); ctx.arc(240, 400, 32, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#00f2fe'; ctx.beginPath(); ctx.arc(px, py, 14, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#fe2c55'; ctx.beginPath(); ctx.arc(ex, ey, 16, 0, Math.PI * 2); ctx.fill();
+          };
+        }
+
+        case 'bubble': {
+          s.orbs = Array.from({ length: 12 }, () => ({
+            x: 60 + Math.random() * 360, y: 160 + Math.random() * 440, vx: (Math.random() - 0.5) * 3, vy: (Math.random() - 0.5) * 3
+          }));
+          s.waves = [];
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#06151f'; ctx.fillRect(0, 0, 480, 800);
+            if (inp.justPressed) st.waves.push({ x: inp.x, y: inp.y, r: 8, max: 75 });
+            st.waves.forEach(w => {
+              w.r += 2.5;
+              ctx.strokeStyle = '#00f2fe'; ctx.lineWidth = 3;
+              ctx.beginPath(); ctx.arc(w.x, w.y, w.r, 0, Math.PI * 2); ctx.stroke();
+            });
+            st.waves = st.waves.filter(w => w.r < w.max);
+            st.orbs.forEach(o => {
+              o.x += o.vx; o.y += o.vy;
+              if (o.x < 30 || o.x > 450) o.vx *= -1;
+              if (o.y < 140 || o.y > 640) o.vy *= -1;
+              st.waves.forEach(w => {
+                if (Math.hypot(o.x - w.x, o.y - w.y) < w.r + 12) {
+                  st.score += 5;
+                  st.waves.push({ x: o.x, y: o.y, r: 5, max: 60 });
+                  o.x = 60 + Math.random() * 360; o.y = 160 + Math.random() * 440;
+                }
+              });
+              ctx.fillStyle = '#a855f7'; ctx.beginPath(); ctx.arc(o.x, o.y, 13, 0, Math.PI * 2); ctx.fill();
+            });
+          };
+        }
+
+        case 'climber': {
+          s.py = 400; s.vy = -8;
+          s.plats = Array.from({ length: 7 }, (_, i) => ({ x: 40 + Math.random() * 310, y: 140 + i * 95 }));
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0c192c'; ctx.fillRect(0, 0, 480, 800);
+            const px = Math.max(20, Math.min(460, inp.x));
+            st.vy += 0.35; st.py += st.vy;
+            if (st.py < 320 && st.vy < 0) {
+              st.plats.forEach(p => {
+                p.y -= st.vy;
+                if (p.y > 760) { p.y = 110; p.x = 40 + Math.random() * 310; st.score += 10; }
+              });
+              st.py = 320;
+            }
+            st.plats.forEach(p => {
+              ctx.fillStyle = '#22c55e'; ctx.fillRect(p.x, p.y, 85, 14);
+              if (st.vy > 0 && px > p.x - 10 && px < p.x + 95 && st.py + 16 > p.y && st.py + 16 < p.y + 22) {
+                st.vy = -10.5;
+              }
+            });
+            if (st.py > 790) { st.py = 350; st.vy = -10; st.score = 0; }
+            ctx.fillStyle = '#facc15'; ctx.beginPath(); ctx.arc(px, st.py, 16, 0, Math.PI * 2); ctx.fill();
+          };
+        }
+
+        case 'shield': {
+          s.bolts = [{ ang: 0, dist: 280 }];
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#090b16'; ctx.fillRect(0, 0, 480, 800);
+            const shieldAng = Math.atan2(inp.y - 400, inp.x - 240);
+            ctx.fillStyle = '#00f2fe'; ctx.beginPath(); ctx.arc(240, 400, 26, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#facc15'; ctx.lineWidth = 8;
+            ctx.beginPath(); ctx.arc(240, 400, 65, shieldAng - 0.75, shieldAng + 0.75); ctx.stroke();
+            st.bolts.forEach(b => {
+              b.dist -= 4.2;
+              const bx = 240 + Math.cos(b.ang) * b.dist;
+              const by = 400 + Math.sin(b.ang) * b.dist;
+              ctx.fillStyle = '#fe2c55'; ctx.beginPath(); ctx.arc(bx, by, 10, 0, Math.PI * 2); ctx.fill();
+              if (b.dist < 72 && b.dist > 55) {
+                const diff = Math.atan2(Math.sin(b.ang - shieldAng), Math.cos(b.ang - shieldAng));
+                if (Math.abs(diff) < 0.85) {
+                  st.score += 10; b.dist = 300; b.ang = Math.random() * Math.PI * 2;
+                }
+              }
+              if (b.dist < 25) { st.score = 0; b.dist = 300; b.ang = Math.random() * Math.PI * 2; }
+            });
+          };
+        }
+
+        case 'chroma': {
+          const colors = ['#fe2c55', '#00f2fe', '#facc15', '#22c55e'];
+          s.py = 520; s.vy = 0; s.cIdx = 0; s.gateY = 160; s.shift = 0;
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0d0d18'; ctx.fillRect(0, 0, 480, 800);
+            if (inp.justPressed) st.vy = -8.5;
+            st.vy += 0.35; st.py = Math.min(580, st.py + st.vy);
+            st.gateY += 3.2; st.shift += 2.5;
+            for (let i = 0; i < 4; i++) {
+              const x = ((i * 120 + st.shift) % 480);
+              ctx.fillStyle = colors[i];
+              ctx.fillRect(x, st.gateY, 120, 18);
+              ctx.fillRect(x - 480, st.gateY, 120, 18);
+            }
+            if (Math.abs(st.py - st.gateY) < 16) {
+              st.score += 10; st.gateY = 120; st.cIdx = (st.cIdx + 1) % 4;
+            }
+            if (st.gateY > 680) { st.gateY = 120; st.score = 0; }
+            ctx.fillStyle = colors[st.cIdx];
+            ctx.beginPath(); ctx.arc(240, st.py, 16, 0, Math.PI * 2); ctx.fill();
+          };
+        }
+
+        case 'memory': {
+          s.targetPad = Math.floor(Math.random() * 4); s.flash = 30;
+          const padColors = ['#fe2c55', '#00f2fe', '#facc15', '#22c55e'];
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0a0c16'; ctx.fillRect(0, 0, 480, 800);
+            if (st.flash > 0) st.flash--;
+            for (let i = 0; i < 4; i++) {
+              const px = 70 + (i % 2) * 180;
+              const py = 230 + Math.floor(i / 2) * 180;
+              ctx.fillStyle = padColors[i];
+              ctx.globalAlpha = (st.flash > 0 && i === st.targetPad) ? 1 : 0.3;
+              ctx.fillRect(px, py, 150, 150);
+              ctx.globalAlpha = 1;
+              if (inp.justPressed && inp.x > px && inp.x < px + 150 && inp.y > py && inp.y < py + 150) {
+                if (i === st.targetPad) { st.score += 10; } else { st.score = 0; }
+                st.targetPad = Math.floor(Math.random() * 4); st.flash = 28;
+              }
+            }
+          };
+        }
+
+        case 'zombie': {
+          s.zombies = Array.from({ length: 6 }, () => {
+            const a = Math.random() * Math.PI * 2;
+            return { x: 240 + Math.cos(a) * 320, y: 400 + Math.sin(a) * 320 };
+          });
+          s.shots = [];
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0c1412'; ctx.fillRect(0, 0, 480, 800);
+            const aim = Math.atan2(inp.y - 400, inp.x - 240);
+            if (st.frame % 10 === 0) st.shots.push({ x: 240, y: 400, vx: Math.cos(aim) * 9, vy: Math.sin(aim) * 9 });
+            ctx.fillStyle = '#00f2fe'; ctx.beginPath(); ctx.arc(240, 400, 18, 0, Math.PI * 2); ctx.fill();
+            st.shots.forEach(sh => {
+              sh.x += sh.vx; sh.y += sh.vy;
+              ctx.fillStyle = '#facc15'; ctx.beginPath(); ctx.arc(sh.x, sh.y, 5, 0, Math.PI * 2); ctx.fill();
+            });
+            st.shots = st.shots.filter(sh => sh.x > 0 && sh.x < 480 && sh.y > 0 && sh.y < 800);
+            st.zombies.forEach(z => {
+              const a = Math.atan2(400 - z.y, 240 - z.x);
+              z.x += Math.cos(a) * 2.1; z.y += Math.sin(a) * 2.1;
+              if (Math.hypot(z.x - 240, z.y - 400) < 26) {
+                st.score = 0;
+                const na = Math.random() * Math.PI * 2;
+                z.x = 240 + Math.cos(na) * 320; z.y = 400 + Math.sin(na) * 320;
+              }
+              st.shots.forEach(sh => {
+                if (Math.hypot(sh.x - z.x, sh.y - z.y) < 22) {
+                  st.score += 5; sh.x = -999;
+                  const na = Math.random() * Math.PI * 2;
+                  z.x = 240 + Math.cos(na) * 340; z.y = 400 + Math.sin(na) * 340;
+                }
+              });
+              ctx.fillStyle = '#22c55e'; ctx.beginPath(); ctx.arc(z.x, z.y, 16, 0, Math.PI * 2); ctx.fill();
+            });
+          };
+        }
+
+        case 'racer': {
+          s.cars = [{ lane: 0, y: -50 }, { lane: 2, y: -350 }];
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#140824'; ctx.fillRect(0, 0, 480, 800);
+            ctx.fillStyle = '#1e1b4b'; ctx.fillRect(90, 0, 300, 800);
+            ctx.strokeStyle = '#00f2fe'; ctx.setLineDash([28, 28]); ctx.lineDashOffset = -st.frame * 9;
+            ctx.beginPath(); ctx.moveTo(190, 0); ctx.lineTo(190, 800); ctx.moveTo(290, 0); ctx.lineTo(290, 800); ctx.stroke();
+            ctx.setLineDash([]);
+            const px = Math.max(115, Math.min(365, inp.x));
+            ctx.fillStyle = '#00f2fe'; ctx.fillRect(px - 22, 580, 44, 75);
+            st.cars.forEach(c => {
+              c.y += 8.5;
+              if (c.y > 820) { c.y = -80; c.lane = Math.floor(Math.random() * 3); st.score += 10; }
+              const cx = 140 + c.lane * 100;
+              ctx.fillStyle = '#fe2c55'; ctx.fillRect(cx - 22, c.y, 44, 75);
+              if (Math.abs(px - cx) < 40 && c.y + 75 > 580 && c.y < 655) { st.score = 0; c.y = -100; }
+            });
+          };
+        }
+
+        case 'pinball': {
+          s.bx = 240; s.by = 200; s.vx = 4; s.vy = 2;
+          const bumpers = [{ x: 160, y: 310, r: 32 }, { x: 320, y: 310, r: 32 }, { x: 240, y: 420, r: 38 }];
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0c0a1d'; ctx.fillRect(0, 0, 480, 800);
+            st.vy += 0.25; st.bx += st.vx; st.by += st.vy;
+            if (st.bx < 20 || st.bx > 460) st.vx *= -1;
+            if (st.by < 80) st.vy *= -1;
+            const px = Math.max(20, Math.min(350, inp.x - 55));
+            if (st.by > 620 && st.by < 645 && st.bx > px && st.bx < px + 110) {
+              st.vy = -11.5; st.vx += (st.bx - (px + 55)) * 0.12;
+            }
+            if (st.by > 790) { st.bx = 240; st.by = 180; st.vy = 2; st.score = 0; }
+            bumpers.forEach(b => {
+              ctx.fillStyle = '#fe2c55'; ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
+              if (Math.hypot(st.bx - b.x, st.by - b.y) < b.r + 12) {
+                const a = Math.atan2(st.by - b.y, st.bx - b.x);
+                st.vx = Math.cos(a) * 8; st.vy = Math.sin(a) * 8; st.score += 15;
+              }
+            });
+            ctx.fillStyle = '#00f2fe'; ctx.fillRect(px, 630, 110, 16);
+            ctx.fillStyle = '#facc15'; ctx.beginPath(); ctx.arc(st.bx, st.by, 12, 0, Math.PI * 2); ctx.fill();
+          };
+        }
+
+        case 'rhythm': {
+          s.notes = [
+            { lane: 0, y: 100 }, { lane: 2, y: -80 }, { lane: 1, y: -260 }, { lane: 3, y: -440 }
+          ];
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#0b0719'; ctx.fillRect(0, 0, 480, 800);
+            for (let i = 0; i < 4; i++) {
+              ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+              ctx.strokeRect(40 + i * 100, 0, 100, 800);
+            }
+            ctx.fillStyle = 'rgba(0, 242, 254, 0.25)';
+            ctx.fillRect(40, 580, 400, 36);
+            st.notes.forEach(n => {
+              n.y += 5.5;
+              const nx = 90 + n.lane * 100;
+              ctx.fillStyle = '#fe2c55';
+              ctx.fillRect(nx - 40, n.y, 80, 24);
+              if (n.y > 555 && n.y < 625 && (Math.abs(inp.x - nx) < 55 || inp.justPressed)) {
+                st.score += 10; n.y = -120; n.lane = Math.floor(Math.random() * 4);
+              }
+              if (n.y > 760) { n.y = -120; n.lane = Math.floor(Math.random() * 4); st.score = 0; }
+            });
+          };
+        }
+
+        case 'copter': {
+          s.py = 400; s.vy = 0; s.wallX = 480; s.gapY = 260;
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#07131a'; ctx.fillRect(0, 0, 480, 800);
+            st.vy += inp.isDown ? -0.48 : 0.38;
+            st.vy = Math.max(-7, Math.min(7, st.vy));
+            st.py += st.vy;
+            st.wallX -= 5;
+            if (st.wallX < -60) { st.wallX = 480; st.gapY = 180 + Math.random() * 300; st.score += 10; }
+            ctx.fillStyle = '#00f2fe';
+            ctx.fillRect(st.wallX, 0, 55, st.gapY);
+            ctx.fillRect(st.wallX, st.gapY + 190, 55, 800);
+            ctx.fillStyle = '#facc15';
+            ctx.fillRect(110, st.py - 14, 34, 24);
+            if (st.py < 60 || st.py > 740 || (144 > st.wallX && 110 < st.wallX + 55 && (st.py - 14 < st.gapY || st.py + 10 > st.gapY + 190))) {
+              st.py = 400; st.vy = 0; st.wallX = 480; st.score = 0;
+            }
+          };
+        }
+
+        case 'boss': {
+          s.needle = 240; s.dir = 7; s.hp = 100; s.shake = 0;
+          return (ctx, st, inp) => {
+            ctx.fillStyle = '#160a1c'; ctx.fillRect(0, 0, 480, 800);
+            if (st.shake > 0) st.shake--;
+            const bx = 240 + (st.shake ? (Math.random() - 0.5) * 16 : 0);
+            ctx.fillStyle = '#fe2c55';
+            ctx.beginPath(); ctx.arc(bx, 310, 75, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#334155'; ctx.fillRect(90, 175, 300, 18);
+            ctx.fillStyle = '#22c55e'; ctx.fillRect(90, 175, 3 * st.hp, 18);
+            ctx.fillStyle = '#1e293b'; ctx.fillRect(60, 540, 360, 32);
+            ctx.fillStyle = '#facc15'; ctx.fillRect(205, 540, 70, 32);
+            st.needle += st.dir;
+            if (st.needle < 65 || st.needle > 415) st.dir *= -1;
+            ctx.fillStyle = '#00f2fe'; ctx.fillRect(st.needle - 5, 530, 10, 52);
+            if (inp.justPressed) {
+              if (st.needle >= 205 && st.needle <= 275) {
+                st.hp -= 25; st.score += 25; st.shake = 12;
+                if (st.hp <= 0) { st.hp = 100; st.score += 50; }
+              } else {
+                st.score = 0; st.hp = 100;
+              }
+            }
+          };
+        }
+      }
+    }
+
+    // Boot application
+    renderFeed();
+  </script>
 </body>
 </html>
