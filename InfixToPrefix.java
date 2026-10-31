@@ -27,7 +27,7 @@ public class InfixToPrefix{
         }
         stack.pop();
       } else {
-        while(!stack.isEmpty() && (precedence(stack.peek())>precedence(c))){
+        while(!stack.isEmpty() && (precedence(stack.peek())>=precedence(c))){
           sb.append(stack.pop());
         }
         stack.push(c);
